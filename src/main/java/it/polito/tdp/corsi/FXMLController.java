@@ -47,10 +47,34 @@ public class FXMLController {
     @FXML
     void corsiPerPeriodo(ActionEvent event) {
     	
+    	String Periodo = txtPeriodo.getText();
+    	boolean x = this.model.PeriodoControl(Periodo);
+    	if(x==false) {
+    		txtRisultato.setText("Please Enter 1 or 2 as Period time");
+    		return ;
+    	}
+    	else {
+    		txtRisultato.setText(this.model.GetCorsibyPeriodo(this.model.PeriodoConverter(Periodo)));
+    	}
+    	
+    	
+    	
     }
 
     @FXML
     void numeroStudenti(ActionEvent event) {
+    	
+    	String Periodo = txtPeriodo.getText();
+    	boolean x = this.model.PeriodoControl(Periodo);
+    	int p = this.model.PeriodoConverter(Periodo);
+    	if(x==false) {
+    		txtRisultato.setText("Please Enter 1 or 2 as Period time");
+    		return ;
+    	}
+    	else {
+    		txtRisultato.setText(this.model.GetTotIscrittiperCorso(this.model.GetCorsiList(p)));
+    	}
+    	
     	
     }
 
