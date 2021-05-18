@@ -5,6 +5,7 @@ import java.util.*;
 
 import it.polito.tdp.corsi.model.Corso;
 import it.polito.tdp.corsi.model.Iscrizione;
+import it.polito.tdp.corsi.model.Studente;
 
 public class CorsoDAO {
 
@@ -56,6 +57,56 @@ public class CorsoDAO {
 		} 
 		return ArrayIscrizione;
 		
+	}
+	
+	public List<Studente> getStudentidiCorso(String codicecorso){
+		Connection conn;
+		List <Studente> ArrayStudente = new ArrayList<Studente>();
+		List <Integer> ArrayMatricola = new ArrayList<Integer>();
+		String p = " SELECT * FROM iscrizione WHERE codins = ? ";
+		
+		try {
+			conn = DBConnect.getConnection();
+			PreparedStatement ps = conn.prepareStatement(p);
+			ps.setString(1, codicecorso);
+			ResultSet rs = ps.executeQuery();
+		//	ps.setString(1, codicecorso);
+			while(rs.next()) {
+				Integer c = rs.getInt("matricola");
+				ArrayMatricola.add(c);
+			}
+			
+			rs.close();
+			ps.close();
+			conn.close();
+			
+		} catch (SQLException e) {
+			
+			throw new RuntimeException("There was an error",e);
+		}
+		
+		String t = "SELECT * FROM studente ";		
+		try {
+			conn = DBConnect.getConnection();
+			PreparedStatement ps = conn.prepareStatement(t);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				if(ArrayMatricola.contains(rs.getInt("matricola"))) {
+					
+					Studente s = new Studente(rs.getInt("matricola"),rs.getString("cognome"),rs.getString("nome"),rs.getString("CDS"));
+					ArrayStudente.add(s);
+				}
+			}
+			
+			rs.close();
+			ps.close();
+			conn.close();
+			
+		} catch (SQLException e) {
+			
+			throw new RuntimeException("There was an error",e);
+			}
+		return ArrayStudente;
 	}
 	
 }

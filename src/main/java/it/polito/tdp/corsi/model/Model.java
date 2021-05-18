@@ -1,7 +1,10 @@
 package it.polito.tdp.corsi.model;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import it.polito.tdp.corsi.DB.CorsoDAO;
 
@@ -93,5 +96,41 @@ public class Model {
 		}
 			
 		return o;
+	}
+	
+	public String ElencoStudenti(String codicecorso) {
+		List<Studente> ArrayStudente = corsoDAO.getStudentidiCorso(codicecorso);
+		String aux = "";
+		for(int i = 0 ; i < ArrayStudente.size() ; i++) {
+			aux += ArrayStudente.get(i).toString()+"\n";
+		}
+		return aux.trim();
+	}
+	
+	public List<Studente> ElencoperCDS(String codicecorso){
+		List<Studente> ArrayStudente = corsoDAO.getStudentidiCorso(codicecorso);
+		return ArrayStudente;
+	}
+	
+	public String ElencoCDS(String cds) {
+		List<Studente> ArrayStudente = ElencoperCDS(cds);
+		List<String> Arraycds = new ArrayList();
+		Map<String,Integer> Mapcds = new TreeMap<String,Integer>();
+		for(Studente s: ArrayStudente) {
+			if(Mapcds.get(s.getCDS())==null) {
+				Mapcds.put(s.getCDS(),1);
+				Arraycds.add(s.getCDS());
+			}
+			else {
+				Mapcds.put(s.getCDS(),Mapcds.get(s.getCDS())+1);
+			}
+		}
+		String aux = "";
+		for(int i = 0; i < Arraycds.size() ; i++) {
+			aux += Arraycds.get(i)+" "+Mapcds.get(Arraycds.get(i))+"\n";
+		}
+		
+		
+		return aux.trim();
 	}
 }

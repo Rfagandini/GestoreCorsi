@@ -5,7 +5,11 @@
 package it.polito.tdp.corsi;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.TreeMap;
+
 import it.polito.tdp.corsi.model.Model;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -80,11 +84,21 @@ public class FXMLController {
 
     @FXML
     void stampaDivisione(ActionEvent event) {
-
+    	
+    	txtRisultato.setText("");
+    	String corso = txtCorso.getText();
+    	txtRisultato.setText(model.ElencoCDS(corso));
     }
 
     @FXML
     void stampaStudenti(ActionEvent event) {
+    	
+    	txtRisultato.setText("");
+    	String corso = txtCorso.getText();
+    	
+    	
+    	
+    	txtRisultato.setText(model.ElencoStudenti(corso));
 
     }
 
